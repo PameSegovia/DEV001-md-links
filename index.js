@@ -1,6 +1,6 @@
 const {
   isMd,
-  absolutePath,
+  pathAbsolute,
 
 } = require('./functions');
 
@@ -18,9 +18,10 @@ const mdLinks = (path, options) => {
         reject('La ruta no Existe');
       }
       // Chequear o convertir a un ruta absoluta.
-      const pathAbsolute = absolutePath(path);
+      const pathAbsolut = pathAbsolute(path);
+     
       // Verificar sí es archivo MD.
-      if (!isMd(pathAbsolute)) {
+      if (!isMd(pathAbsolut)) {
         reject(new Error('La extensión del archivo es .md!'));
       } else {
         // El archivo contiene links?
@@ -30,8 +31,9 @@ const mdLinks = (path, options) => {
 
       }
     });
+}
 
     module.exports = {
       mdLinks,
-      // ...
+  
     };

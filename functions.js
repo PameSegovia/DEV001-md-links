@@ -9,9 +9,32 @@ function pathAbsolute(footpath) {
 console.log(pathAbsolute("./prueba/ejemplo.md"))
 
 /*FUNCIÓN QUE VERIFICA SI HAY ARCHIVOS MD*/
-const  isMd  = (pathAbsolute) => {
+function  isMd (pathAbsolute){
   const filePath = path.extname(pathAbsolute);
   if (filePath === ".md"){
     return true;
   } return false;
+};
+console.log(isMd("./prueba/ejemplo.md"))
+
+/*FUNCIÓN QUE LEE EL ARCHUVO*/
+
+function readFile(mdPath) {
+  new Promise((resolve, reject) => {
+    fs.readFile(mdPath, 'utf-8', (error, file) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(file);
+      }
+    });
+  });
+} 
+
+
+module.exports = {
+  pathAbsolute,
+  isMd,
+  readFile
+
 };
