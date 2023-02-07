@@ -1,39 +1,55 @@
 const {
   isMd,
   pathAbsolute,
-
+  getLinks,
 } = require('./functions');
 
 const fs = require('fs');
 
+
 const mdLinks = (path, options) => {
-    return new Promise((resolve, reject) => {
-      //Identifica sí la ruta existe.
-      //Sí existe:
-      if (fs.existsSync(path)) {
-        console.log("La ruta existe.")
-      }
-      //Sí no existe la ruta, rechaza la promesa.
-      else {
-        reject('La ruta no Existe');
-      }
-      // Chequear o convertir a un ruta absoluta.
-      const pathAbsolut = pathAbsolute(path);
-     
-      // Verificar sí es archivo MD.
-      if (!isMd(pathAbsolut)) {
-        reject(new Error('La extensión del archivo es .md!'));
-      } else {
-        // El archivo contiene links?
-        console.log('La extensión del archivo es de tipo .md');
-        // Sí es un directorio, filtrar los archivos md.
+  //Identifica sí la ruta existe.
+  return new Promise((resolve, reject) => {
+    //Sí existe:
+    if (fs.existsSync(path)) {
+      console.log("La ruta existe.")
+    }
+    //Sí no existe la ruta, rechaza la promesa.
+    else {
+      reject('La ruta no Existe');
+    }
+    // Chequear o convertir a un ruta absoluta.
+    const pathAbsolut = pathAbsolute(path);
+
+    // Verificar sí es archivo MD.
+    if (!isMd(pathAbsolut)) {
+      reject('El archivo no es de tipo .md');
+    } else {
+
+      // Leer el Archivo md y Obtener Links
+      getLinks(pathAbsolut).then((arrLinks) => {
+          if (arrLinks.length === 0) {
+            reject(new Error('El archivo no tiene links'))
+          } else {
+            resolve(arrLinks)
+          }
+
+        }
+
+      ).catch((error) => {
+        console.log(error)
+
+        }
+
+      )
 
 
-      }
-    });
+    }
+
+  });
 }
 
-    module.exports = {
-      mdLinks,
-  
-    };
+module.exports = {
+  mdLinks,
+
+};
