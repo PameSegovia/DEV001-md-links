@@ -2,12 +2,15 @@ const {
   isMd,
   pathAbsolute,
   getLinks,
+  validateLinks
 } = require('./functions');
 
 const fs = require('fs');
 
 
-const mdLinks = (path, options) => {
+const mdLinks = (path, options = {
+  validate: false
+}) => {
   //Identifica sí la ruta existe.
   return new Promise((resolve, reject) => {
     //Sí existe:
@@ -25,24 +28,26 @@ const mdLinks = (path, options) => {
     if (!isMd(pathAbsolut)) {
       reject('El archivo no es de tipo .md');
     } else {
-
+      
       // Leer el Archivo md y Obtener Links
       getLinks(pathAbsolut).then((arrLinks) => {
           if (arrLinks.length === 0) {
             reject(new Error('El archivo no tiene links'))
-          } else {
+          } 
+          if (options.validate == false) {
             resolve(arrLinks)
-          }
 
+          } else{
+            const arrPromise = validateLinks(arrLinks)  
+            Promise.all(arrPromise).then(result => resolve(result)
+    
+      )}
         }
 
       ).catch((error) => {
         console.log(error)
 
-        }
-
-      )
-
+        })
 
     }
 
@@ -51,5 +56,4 @@ const mdLinks = (path, options) => {
 
 module.exports = {
   mdLinks,
-
 };

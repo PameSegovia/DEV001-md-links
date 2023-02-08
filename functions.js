@@ -71,11 +71,11 @@ function validateLinks(arrayLinks) {
 })
 }
 
-getLinks('./prueba/ejemplo.md').then(arrayLinks => {
+/*getLinks('./prueba/ejemplo.md').then(arrayLinks => {
   //console.log(arrayLinks)
 const arrPromise = validateLinks(arrayLinks)  
 Promise.all(arrPromise).then(result => console.log(result))
-})
+})*/
 
 
 
